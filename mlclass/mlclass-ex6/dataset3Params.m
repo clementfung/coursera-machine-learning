@@ -11,7 +11,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 C = 1;
 sigma = 0.3;
 
-starter_set = [0.01,0.03,0.1,0.3,1,3,10,30];
+starter_set = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return the optimal C and sigma
@@ -25,15 +25,35 @@ starter_set = [0.01,0.03,0.1,0.3,1,3,10,30];
 %        mean(double(predictions ~= yval))
 %
 
-for c_test in 1:length(starter_set)
+C = 0;
+sigma = 0;
+bestErr = 100;
 
-	for s_test in 1:length(starter_set)
+for i = 1:length(starter_set)
 
-		
+	for j = 1:length(starter_set)
+
+	testC = starter_set(i);
+	testSigma = starter_set(j);
+
+	model = svmTrain(X, y, testC, @(x1, x2) gaussianKernel(x1, x2, testSigma)); 	
+	pred = svmPredict(model, Xval);
+	total_error = mean(double(pred ~= yval));
+
+	if (total_error < bestErr) 
+
+		C = testC;
+		sigma = testSigma;
+		bestErr = total_error;
+
+		end
 
 	end
 
 end
+
+C
+sigma
 
 
 % =========================================================================
