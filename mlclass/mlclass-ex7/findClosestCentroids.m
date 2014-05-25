@@ -21,7 +21,20 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i = 1:length(idx)
 
+	% initialize vector to hold costs
+	costs = zeros(K, 1);
+
+    for c = 1:K
+
+    	costs(c) = sum((centroids(c,:) .- X(i,:)) .^ 2);
+
+    end
+
+    idx(i) = find(costs == min(costs));
+
+end
 
 
 
